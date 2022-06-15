@@ -28,7 +28,7 @@ public class WishListServiceImpl implements IWishListService {
     @Autowired
     private WishlistCityUtil util;
     //
-    private Random random = new Random();
+
 
     //
 //
