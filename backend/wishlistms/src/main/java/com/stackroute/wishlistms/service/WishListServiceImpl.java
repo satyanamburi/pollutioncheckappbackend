@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Component
 public class WishListServiceImpl implements IWishListService {
@@ -32,21 +31,21 @@ public class WishListServiceImpl implements IWishListService {
 
     //
 //
-    public String generateId(long userID,String city,String state,String country) {
+    public String generateId(String userID, String city, String state, String country) {
       String id = city+"-"+state+"-"+country+"-u-"+userID;
       return id;
     }
 
     @Override
     public WishListCityDeatils addToWishList(AddToWatchList requestData) throws CityInfoAlreadyExistsException {
-        Optional<CityInfo> optional = repository.findByUserIdAndCityAndStateAndCountry(requestData.getUserId(), requestData.getCity(), requestData.getState(), requestData.getCountry());
+        Optional<CityInfo> optional = repository.findByUserNameAndCityAndStateAndCountry(requestData.getUserName(), requestData.getCity(), requestData.getState(), requestData.getCountry());
         if (optional.isPresent()) {
             throw new CityInfoAlreadyExistsException("City Info is already present in the WishList!");
 
         }
         CityInfo cityInfo;
         cityInfo = util.toCityInfo(requestData);
-        cityInfo.setId(generateId(requestData.getUserId(),requestData.getCity(),requestData.getState(),requestData.getCountry()));
+        cityInfo.setId(generateId(requestData.getUserName(),requestData.getCity(),requestData.getState(),requestData.getCountry()));
 
         cityInfo = repository.save(cityInfo);
 
@@ -57,7 +56,7 @@ public class WishListServiceImpl implements IWishListService {
     @Override
     public void remove(RemoveFromWatchList requestData) throws CityInfoNotFoundException {
 
-        Optional<CityInfo> optional = repository.findByUserIdAndCityAndStateAndCountry(requestData.getUserId(), requestData.getCity(), requestData.getState(), requestData.getCountry());
+        Optional<CityInfo> optional = repository.findByUserNameAndCityAndStateAndCountry(requestData.getUserName(), requestData.getCity(), requestData.getState(), requestData.getCountry());
         if (!optional.isPresent()) {
             throw new CityInfoNotFoundException("No City Found!");
         }
@@ -67,8 +66,8 @@ public class WishListServiceImpl implements IWishListService {
     }
 
     @Override
-    public List<WishListCityDeatils> listWatchListByUserId(long userId) throws CityInfoNotFoundException {
-        List<CityInfo> cityInfoList = repository.findByUserId(userId);
+    public List<WishListCityDeatils> listWatchListByUserName(String userId) throws CityInfoNotFoundException {
+        List<CityInfo> cityInfoList = repository.findByUserName(userId);
         if (cityInfoList.isEmpty()) {
             throw new CityInfoNotFoundException("No City Found!");
         }

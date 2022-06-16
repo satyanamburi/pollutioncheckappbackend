@@ -16,7 +16,7 @@ public class WishlistCityUtil {
 
     public WishListCityDeatils toCityDetails(CityInfo cityInfo){
         WishListCityDeatils desired = new WishListCityDeatils();
-        desired.setUserId(cityInfo.getUserId());
+        desired.setUserName(cityInfo.getUserName());
         desired.setCity(cityInfo.getCity());
         desired.setState(cityInfo.getState());
         desired.setCountry(cityInfo.getCountry());
@@ -28,8 +28,8 @@ public class WishlistCityUtil {
     }
     public CityInfo toCityInfo(AddToWatchList cityInfo){
         CityInfo desired = new CityInfo();
-        desired.setUserId(cityInfo.getUserId());
-        desired.setUserId(cityInfo.getUserId());
+        desired.setUserName(cityInfo.getUserName());
+        desired.setUserName(cityInfo.getUserName());
         desired.setCity(cityInfo.getCity());
         desired.setState(cityInfo.getState());
         desired.setCountry(cityInfo.getCountry());

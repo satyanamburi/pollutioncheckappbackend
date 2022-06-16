@@ -20,7 +20,7 @@ public interface IWishListService {
 
     void remove(@Valid RemoveFromWatchList requestData) throws CityInfoNotFoundException;
 
-    List<WishListCityDeatils> listWatchListByUserId( @Min(1) long userId) throws CityInfoNotFoundException;
+    List<WishListCityDeatils> listWatchListByUserName( @NotBlank String userId) throws CityInfoNotFoundException;
 
 
 }

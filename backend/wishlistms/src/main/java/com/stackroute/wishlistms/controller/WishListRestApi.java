@@ -10,6 +10,7 @@ import com.stackroute.wishlistms.exceptions.CityInfoNotFoundException;
 import com.stackroute.wishlistms.service.IWishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,14 +25,15 @@ public class WishListRestApi {
 
     @GetMapping("/byid/{id}")
 
-    public List<WishListCityDeatils> findAll(@PathVariable  long id) throws Exception {
+    public List<WishListCityDeatils> findAll(@PathVariable  String id) throws Exception {
 
-        List<WishListCityDeatils> response = service.listWatchListByUserId(id);
+        List<WishListCityDeatils> response = service.listWatchListByUserName(id);
         return response;
     }
 
 
     @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
     public WishListCityDeatils add(@RequestBody AddToWatchList requestData) throws Exception {
         WishListCityDeatils response= service.addToWishList(requestData);
         return response;

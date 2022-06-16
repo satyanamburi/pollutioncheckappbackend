@@ -1,15 +1,13 @@
 package com.stackroute.wishlistms.dto;
 
 
-import com.stackroute.wishlistms.entity.Location;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 public class RemoveFromWatchList {
-    @Min(1)
-    private long userId;
+    private String userName;
     @NotBlank
     @Length(min = 2)
     private String city;
@@ -36,12 +34,12 @@ public class RemoveFromWatchList {
         this.country = country;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getCity() {
@@ -50,5 +48,18 @@ public class RemoveFromWatchList {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RemoveFromWatchList that = (RemoveFromWatchList) o;
+        return Objects.equals(userName, that.userName) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(country, that.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, city, state, country);
     }
 }

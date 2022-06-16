@@ -9,7 +9,7 @@ import com.stackroute.wishlistms.entity.Weather;
  */
 public class WishListCityDeatils {
 
-    private long userId;
+    private String userName;
     private String city;
     private String state;
     private String country;
@@ -17,12 +17,12 @@ public class WishListCityDeatils {
     private Pollution pollution;
     private Weather weather;
 
-    public long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 

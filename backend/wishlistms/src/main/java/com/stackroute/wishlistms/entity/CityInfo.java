@@ -8,7 +8,7 @@ public class CityInfo {
     @Id
     private String id;
 
-    private long userId;
+    private String userName;
     private String city;
     private String state;
     private String country;
@@ -28,12 +28,12 @@ public class CityInfo {
         this.id = id;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getCity() {

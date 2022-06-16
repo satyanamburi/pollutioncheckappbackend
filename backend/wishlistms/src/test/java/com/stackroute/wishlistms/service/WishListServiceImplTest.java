@@ -43,15 +43,15 @@ class WishListServiceImplTest {
       */
     @Test
     public void testWatchListByUserId_1() throws Exception {
-        long UserId = 10;
+        String UserName = "10";
         List<WishListCityDeatils> detailsList = mock(List.class);
         List<CityInfo> cityInfos = mock(List.class);
         when(cityInfos.isEmpty()).thenReturn(false);
-        when(repository.findByUserId(UserId)).thenReturn(cityInfos);
+        when(repository.findByUserName(UserName)).thenReturn(cityInfos);
         when(util.toListCityDetails(cityInfos)).thenReturn(detailsList);
-        List<WishListCityDeatils> result = service.listWatchListByUserId(UserId);
+        List<WishListCityDeatils> result = service.listWatchListByUserName(UserName);
         assertSame(detailsList, result);
-        verify(repository).findByUserId(UserId);
+        verify(repository).findByUserName(UserName);
         verify(util).toListCityDetails(cityInfos);
     }
       /*
@@ -63,16 +63,16 @@ class WishListServiceImplTest {
 
     @Test
     public void testWatchListByUserId_2() throws Exception {
-        long UserId = 10;
+        String UserName = "10";
         List<CityInfo> cityInfoList = mock(List.class);
         when(cityInfoList.isEmpty()).thenReturn(true);
-        when(repository.findByUserId(UserId)).thenReturn(cityInfoList);
+        when(repository.findByUserName(UserName)).thenReturn(cityInfoList);
         Executable executable = () -> {
-            service.listWatchListByUserId(UserId);
+            service.listWatchListByUserName(UserName);
         };
 
         assertThrows(CityInfoNotFoundException.class, executable);
-        verify(repository).findByUserId(UserId);
+        verify(repository).findByUserName(UserName);
 
     }
 
@@ -92,7 +92,7 @@ class WishListServiceImplTest {
         request.setCity("delhi");
         request.setState("delhi");
         request.setCountry("india");
-        request.setUserId(10);
+        request.setUserName("10");
         locationOne.setType("point");
         locationOne.setCoordinates(null);
         pollutionOne.setTime(LocalDate.now().toString());
@@ -106,7 +106,7 @@ class WishListServiceImplTest {
         request.setLocation(locationOne);
         String id = "123";
 
-        doReturn(id).when(service).generateId(request.getUserId(), request.getCity(), request.getState(), request.getCountry());
+        doReturn(id).when(service).generateId(request.getUserName(), request.getCity(), request.getState(), request.getCountry());
 
         CityInfo favouriteCity = mock(CityInfo.class);
         CityInfo savedCityInfo = mock(CityInfo.class);
@@ -115,7 +115,7 @@ class WishListServiceImplTest {
         when(util.toCityInfo(request)).thenReturn(favouriteCity);
         WishListCityDeatils details = mock(WishListCityDeatils.class);
         when(util.toCityDetails(savedCityInfo)).thenReturn(details);
-        when(repository.findByUserIdAndCityAndStateAndCountry(request.getUserId(), request.getCity(), request.getState(), request.getCountry()))
+        when(repository.findByUserNameAndCityAndStateAndCountry(request.getUserName(), request.getCity(), request.getState(), request.getCountry()))
                 .thenReturn(optional);
         WishListCityDeatils result = service.addToWishList(request);
         assertSame(details, result);
@@ -139,7 +139,7 @@ class WishListServiceImplTest {
         request.setCity("delhi");
         request.setState("delhi");
         request.setCountry("india");
-        request.setUserId(10);
+        request.setUserName("10");
         locationOne.setType("point");
         locationOne.setCoordinates(null);
         pollutionOne.setTime(LocalDate.now().toString());
@@ -153,7 +153,7 @@ class WishListServiceImplTest {
         request.setLocation(locationOne);
         CityInfo favCityInfo = mock(CityInfo.class);
         Optional<CityInfo> optional = Optional.of(favCityInfo);
-        when(repository.findByUserIdAndCityAndStateAndCountry(request.getUserId(), request.getCity(), request.getState(), request.getCountry()))
+        when(repository.findByUserNameAndCityAndStateAndCountry(request.getUserName(), request.getCity(), request.getState(), request.getCountry()))
                 .thenReturn(optional);
         Executable executable = () -> {
             service.addToWishList(request);
@@ -172,13 +172,13 @@ class WishListServiceImplTest {
     @Test
     public void remove_1() throws CityInfoNotFoundException {
         RemoveFromWatchList removeRequest = new RemoveFromWatchList();
-        removeRequest.setUserId(10);
+        removeRequest.setUserName("10");
         removeRequest.setState("delhi");
         removeRequest.setCity("delhi");
         removeRequest.setCountry("india");
         CityInfo cityInfo = mock(CityInfo.class);
         Optional<CityInfo> optional = Optional.of(cityInfo);
-        when(repository.findByUserIdAndCityAndStateAndCountry(removeRequest.getUserId(), removeRequest.getCity(), removeRequest.getState(), removeRequest.getCountry())).thenReturn(optional);
+        when(repository.findByUserNameAndCityAndStateAndCountry(removeRequest.getUserName(), removeRequest.getCity(), removeRequest.getState(), removeRequest.getCountry())).thenReturn(optional);
         service.remove(removeRequest);
         verify(repository).delete(cityInfo);
     }
@@ -193,13 +193,13 @@ class WishListServiceImplTest {
     @Test
     public void remove_2() throws Exception {
         RemoveFromWatchList removeRequest = new RemoveFromWatchList();
-        removeRequest.setUserId(100);
+        removeRequest.setUserName("100");
         removeRequest.setState("delhi");
         removeRequest.setCity("delhi");
         removeRequest.setCountry("india");
         CityInfo cityInfo = mock(CityInfo.class);
         Optional<CityInfo> optional = Optional.empty();
-        when(repository.findByUserIdAndCityAndStateAndCountry(removeRequest.getUserId(), removeRequest.getCity(), removeRequest.getState(), removeRequest.getCountry())).thenReturn(optional);
+        when(repository.findByUserNameAndCityAndStateAndCountry(removeRequest.getUserName(), removeRequest.getCity(), removeRequest.getState(), removeRequest.getCountry())).thenReturn(optional);
         Executable executable = () -> {
             service.remove(removeRequest);
         };
